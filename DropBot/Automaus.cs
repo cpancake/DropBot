@@ -18,50 +18,47 @@ namespace DropBot
 		private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
 		private const int MOUSEEVENTF_RIGHTUP = 0x10;
 
-		public static async Task MoveTo(Point position, float duration)
+		public static async Task<Point> MoveTo(Point position, float duration, CancellationToken token)
 		{
-			int xChange = position.X - Cursor.Position.X;
-			int yChange = position.Y - Cursor.Position.Y;
+			Console.WriteLine($"moving to ({position.X}, {position.Y})");
 
 			// keep track of the exact current position - without rounding
 			float currentX = Cursor.Position.X;
 			float currentY = Cursor.Position.Y;
-			float currentTime = 0f;
-			bool finished = false;
-
-			await Task.Run(() =>
+			var currentTime = 0f;
+			
+			while (!token.IsCancellationRequested)
 			{
-				while (!finished)
+				currentTime += 0.01f;
+				if (currentTime > duration || (Math.Ceiling(currentX) == position.X && Math.Ceiling(currentY) == position.Y))
 				{
-					currentTime += 0.01f;
-					if (currentTime > duration || (Math.Ceiling(currentX) == position.X && Math.Ceiling(currentY) == position.Y))
-					{
-						finished = true;
-						Cursor.Position = new Point(position.X, position.Y);
-						break;
-					}
-					currentX = Lerp(currentX, position.X, currentTime / duration);
-					currentY = Lerp(currentY, position.Y, currentTime / duration);
-					Cursor.Position = new Point((int)currentX, (int)currentY);
-					Thread.Sleep(10);
+					Cursor.Position = new Point(position.X, position.Y);
+					break;
 				}
-				return;
-			});
+
+				currentX = Lerp(currentX, position.X, currentTime / duration);
+				currentY = Lerp(currentY, position.Y, currentTime / duration);
+				Cursor.Position = new Point((int)currentX, (int)currentY);
+				await Task.Delay(10);
+			}
+
+			Console.WriteLine("finished moveto");
+			return position;
 		}
 
-		public static async Task<Point> MoveToRectangle(Rectangle rect, float duration)
+		public static async Task<Point> MoveToRectangle(Rectangle rect, float duration, CancellationToken token)
 		{
 			var rand = new Random();
 			var point = new Point(
 				rect.X + (int)(rand.NextDouble() * rect.Width), 
 				rect.Y + (int)(rand.NextDouble() * rect.Height)
 			);
-			await MoveTo(point, duration);
-			return point;
+			return await MoveTo(point, duration, token);
 		}
 
 		public static async Task LeftClick(Point point)
 		{
+			Console.WriteLine($"left clicking on ({point.X}, {point.Y})");
 			await Task.Run(() =>
 			{
 				mouse_event(MOUSEEVENTF_LEFTDOWN, (uint)point.X, (uint)point.Y, 0, 0);
@@ -84,6 +81,7 @@ namespace DropBot
 
 		public static async Task RightClick(Point point)
 		{
+			Console.WriteLine($"right clicking on ({point.X}, {point.Y})");
 			await Task.Run(() =>
 			{
 				mouse_event(MOUSEEVENTF_RIGHTDOWN, (uint)point.X, (uint)point.Y, 0, 0);

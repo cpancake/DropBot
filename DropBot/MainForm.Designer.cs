@@ -64,7 +64,7 @@
 			this.refreshButton.TabIndex = 2;
 			this.refreshButton.Text = "Refresh";
 			this.refreshButton.UseVisualStyleBackColor = true;
-			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			this.refreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
 			// 
 			// label2
 			// 
@@ -83,7 +83,7 @@
 			this.findButton.TabIndex = 4;
 			this.findButton.Text = "Find";
 			this.findButton.UseVisualStyleBackColor = true;
-			this.findButton.Click += new System.EventHandler(this.findButton_Click);
+			this.findButton.Click += new System.EventHandler(this.FindButton_Click);
 			// 
 			// label3
 			// 
@@ -121,7 +121,7 @@
 			this.dropButton.TabIndex = 8;
 			this.dropButton.Text = "Drop";
 			this.dropButton.UseVisualStyleBackColor = true;
-			this.dropButton.Click += new System.EventHandler(this.dropButton_Click);
+			this.dropButton.Click += new System.EventHandler(this.DropButton_Click);
 			// 
 			// MainForm
 			// 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace DropBot
@@ -8,6 +9,13 @@ namespace DropBot
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetClientRect(HandleRef hWnd, out RECT lpRect);
+
+		[DllImport("user32.dll")]
+		public static extern bool ClientToScreen(HandleRef hWnd, ref Point lpPoint);
 
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -25,11 +33,11 @@ namespace DropBot
 			public int Right;       // x position of lower-right corner
 			public int Bottom;      // y position of lower-right corner
 		}
-	
+
 		public static void FocusWindow(IntPtr hWnd)
 		{
 			ShowWindow(hWnd, 1);
 			SetForegroundWindow(hWnd);
-		}	
+		}
 	}
 }
