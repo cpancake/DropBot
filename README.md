@@ -1,6 +1,8 @@
 # DropBot
 
-DropBot is a Runescape bot / automation for dropping all items of a single type from your player's inventory. It's pretty buggy, and has some hardcoded assumptions that probably won't work out for you, but since I don't play Runescape anymore I can't really justify working on this any further.
+DropBot is a Runescape bot / automation for dropping all items of a single type from your player's inventory.
+
+It works a lot better now than it did a month ago. One of the major drawbacks is that you have to be in fixed size mode, because it can't eliminate the background of items when they're on the transparent inventory of the resizable mode. Other than that, it works pretty well. It does confuse items sometimes that are the same pixels but a different color (like tinted items). I could solve that problem, but Runescape now has a shift-to-drop option which makes it a lot easier to drop your entire inventory, and I'm finding it hard to care enough to work more.
 
 You can find more details about this bot [here](https://cpancake.me/open-source-dropbot.html).
 
